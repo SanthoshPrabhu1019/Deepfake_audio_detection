@@ -1,4 +1,5 @@
-streamlit
 torch
-transformers
+torchaudio
 timm
+streamlit
+huggingface_hub
