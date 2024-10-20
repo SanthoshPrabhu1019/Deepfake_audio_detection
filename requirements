@@ -1,6 +1,7 @@
-torch==2.0.1+cpu
-torchaudio==2.0.1+cpu
+torch==2.0.1
+torchaudio==2.0.1
 timm
 streamlit
 huggingface_hub
-
+numpy
+pandas
