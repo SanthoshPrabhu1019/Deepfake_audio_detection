@@ -7,21 +7,33 @@ import streamlit as st
 from huggingface_hub import hf_hub_download
 
 # Load the SENet model
-class SENetClassifier(nn.Module):
+class ResNetClassifier(nn.Module):
+
     def __init__(self):
-        super(SENetClassifier, self).__init__()
-        self.model = timm.create_model('senet154', pretrained=True)
-        # Modify the classifier for binary classification
-        self.model.fc = nn.Linear(self.model.fc.in_features, 1)  # Change output to 1 for binary classification
+
+        super(ResNetClassifier, self).__init__()
+
+        self.model = resnet18(weights='IMAGENET1K_V1')
+
+
+
+        # Replace the fully connected layer with a new one for binary classification
+
+        num_features = self.model.fc.in_features  # Get the number of features from the original ResNet's last layer
+
+        self.model.fc = nn.Linear(num_features, 1)  # Change output size to 1 for binary classification
+
+
 
     def forward(self, x):
+
         return self.model(x)  # Directly return the output from the modified model
 
 # Load the trained model from Hugging Face
 def load_model():
-    model = SENetClassifier()
+    model = ResNetClassifier()
     # Download model file from Hugging Face
-    model_path = hf_hub_download(repo_id="SanthoshPrabhu/Deepfake_audio_detection", filename="senet_model_best_model.pth")
+    model_path = hf_hub_download(repo_id="SanthoshPrabhu/Deepfake_audio_detection", filename="resnet_model_best_model.pth")
     model.load_state_dict(torch.load(model_path, map_location='cpu'))
     model.eval()
     return model
