@@ -32,7 +32,7 @@ class SENetClassifier(nn.Module):
 
 # Load the trained model from Hugging Face
 def load_model():
-    model = ResNetClassifier()
+    model = SENetClassifier()
     # Download model file from Hugging Face
     model_path = hf_hub_download(repo_id="SanthoshPrabhu/Deepfake_audio_detection", filename="senet_model_best_model.pth")
     model.load_state_dict(torch.load(model_path, map_location='cpu'))
