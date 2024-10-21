@@ -8,25 +8,14 @@ from huggingface_hub import hf_hub_download
 
 # Load the SENet model
 class SENetClassifier(nn.Module):
-
     def __init__(self):
-
         super(SENetClassifier, self).__init__()
-
         self.model = timm.create_model('senet154', pretrained=True)
-
         # Modify the classifier for binary classification
-
         self.model.fc = nn.Linear(self.model.fc.in_features, 1)  # Change output to 1 for binary classification
 
-
-
     def forward(self, x):
-
         return self.model(x)  
-
-
-    
 
 # Load the trained model from Hugging Face
 def load_model():
@@ -53,25 +42,31 @@ model = load_model()
 
 # Define a function to preprocess the audio
 def preprocess_audio(audio_file):
-    # Load the audio file
-    waveform, _ = torchaudio.load(audio_file)
-    # Convert to Mel-Spectrogram
-    mel_spectrogram = mel_transform(waveform)
-    # Normalize the spectrogram
-    mel_spectrogram = (mel_spectrogram - mel_spectrogram.mean()) / mel_spectrogram.std()
+    try:
+        # Load the audio file
+        waveform, sample_rate = torchaudio.load(audio_file)
 
-    # Pad or truncate the spectrogram
-    if mel_spectrogram.size(2) < target_length:
-        padding = target_length - mel_spectrogram.size(2)
-        mel_spectrogram = nn.functional.pad(mel_spectrogram, (0, padding), "constant", 0)
-    elif mel_spectrogram.size(2) > target_length:
-        mel_spectrogram = mel_spectrogram[:, :, :target_length]
+        # Convert to Mel-Spectrogram
+        mel_spectrogram = mel_transform(waveform)
+        # Normalize the spectrogram
+        mel_spectrogram = (mel_spectrogram - mel_spectrogram.mean()) / mel_spectrogram.std()
 
-    # Ensure mel_spectrogram has the shape [3, height, target_length]
-    if mel_spectrogram.size(0) == 1:
-        mel_spectrogram = mel_spectrogram.expand(3, -1, -1)
+        # Pad or truncate the spectrogram
+        if mel_spectrogram.size(2) < target_length:
+            padding = target_length - mel_spectrogram.size(2)
+            mel_spectrogram = nn.functional.pad(mel_spectrogram, (0, padding), "constant", 0)
+        elif mel_spectrogram.size(2) > target_length:
+            mel_spectrogram = mel_spectrogram[:, :, :target_length]
 
-    return mel_spectrogram
+        # Ensure mel_spectrogram has the shape [3, height, target_length]
+        if mel_spectrogram.size(0) == 1:
+            mel_spectrogram = mel_spectrogram.expand(3, -1, -1)
+
+        return mel_spectrogram
+
+    except Exception as e:
+        st.error(f"Error during audio preprocessing: {e}")
+        return None
 
 # Streamlit UI
 st.title("Deepfake Audio Detection")
@@ -85,15 +80,16 @@ if uploaded_file is not None:
     if st.button("Detect"):
         # Preprocess the audio file
         mel_spectrogram = preprocess_audio(uploaded_file)
-        mel_spectrogram = mel_spectrogram.unsqueeze(0)  # Add batch dimension
+        if mel_spectrogram is not None:
+            mel_spectrogram = mel_spectrogram.unsqueeze(0)  # Add batch dimension
 
-        # Perform prediction
-        with torch.no_grad():
-            output = model(mel_spectrogram)
-            prediction = torch.sigmoid(output).item()  # Get prediction probability
+            # Perform prediction
+            with torch.no_grad():
+                output = model(mel_spectrogram)
+                prediction = torch.sigmoid(output).item()  # Get prediction probability
 
-        # Display results
-        if prediction > 0.5:
-            st.success("The audio is classified as **Real**.")
-        else:
-            st.error("The audio is classified as **Fake**.")
+            # Display results
+            if prediction > 0.5:
+                st.success("The audio is classified as **Real**.")
+            else:
+                st.error("The audio is classified as **Fake**.")
