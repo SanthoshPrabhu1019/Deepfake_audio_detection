@@ -5,6 +5,7 @@ import torchaudio.transforms as transforms
 import timm
 import streamlit as st
 from huggingface_hub import hf_hub_download
+import io  # Importing io
 
 # Load the SENet model
 class SENetClassifier(nn.Module):
@@ -43,8 +44,11 @@ model = load_model()
 # Define a function to preprocess the audio
 def preprocess_audio(audio_file):
     try:
-        # Load the audio file
-        waveform, sample_rate = torchaudio.load(audio_file)
+        # Read the uploaded file as a byte stream
+        audio_bytes = io.BytesIO(audio_file.read())
+        
+        # Load the audio file from the byte stream
+        waveform, sample_rate = torchaudio.load(audio_bytes)
 
         # Convert to Mel-Spectrogram
         mel_spectrogram = mel_transform(waveform)
