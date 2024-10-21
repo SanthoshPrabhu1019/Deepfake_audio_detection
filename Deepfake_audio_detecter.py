@@ -26,9 +26,7 @@ class SENetClassifier(nn.Module):
         return self.model(x)  
 
 
-    def forward(self, x):
-
-        return self.model(x)  # Directly return the output from the modified model
+    
 
 # Load the trained model from Hugging Face
 def load_model():
