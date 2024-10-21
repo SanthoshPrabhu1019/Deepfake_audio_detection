@@ -1,8 +1,0 @@
-torch
-torchvision
-torchaudio
-timm
-streamlit
-huggingface_hub
-numpy
-pandas
