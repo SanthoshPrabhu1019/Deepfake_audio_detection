@@ -82,16 +82,13 @@ def detect_deepfake(audio_file):
 
     return result
 
-# Gradio UI with both upload and record options
+# Gradio UI
 interface = gr.Interface(
     fn=detect_deepfake, 
-    inputs=[
-        gr.Audio(type="filepath", label="Upload an audio file (wav)"),
-        gr.Audio(source="microphone", type="filepath", label="Record audio (wav)")
-    ],
+    inputs=gr.Audio(type="filepath", label="Upload an audio file (wav)"),
     outputs=gr.Textbox(label="Prediction Result"),
     title="Deepfake Audio Detection",
-    description="Upload or record an audio file to check if it's real or fake, along with the confidence level of the prediction."
+    description="**Upload an audio file to check if it's real or fake, along with the confidence level of the prediction.** \n\nNote: The recording option is currently not functional."
 )
 
 # Launch the Gradio app
