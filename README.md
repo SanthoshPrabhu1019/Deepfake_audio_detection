@@ -52,7 +52,7 @@ The model was trained on the *In The Wild* dataset, containing both real and AI-
 
 ## Demo
 Try out the live demo here:  
-[![Hugging Face Space](https://img.shields.io/badge/Live%20Demo-Hugging%20Face-blue?logo=huggingface)](https://huggingface.co/spaces/SanthoshPrabhu/Deepfake_audio_detector)
+[![Hugging Face Space](https://huggingface.co/spaces/SanthoshPrabhu/Deepfake_audio_detector)
 
 ### How the Demo Works:
 1. Upload a `.wav` audio file using the provided upload button.
@@ -63,11 +63,10 @@ Try out the live demo here:
    - A **confidence score**, indicating how certain the model is about the prediction.
 
 ### Screenshots of the Demo:
-![Demo Screenshot 1](demo_screenshot_1.png)  
-*Replace `demo_screenshot_1.png` with the actual first screenshot.*
+![Demo Screenshot 1](./Demo%20Screenshot%201.png)  
 
-![Demo Screenshot 2](demo_screenshot_2.png)  
-*Replace `demo_screenshot_2.png` with the actual second screenshot.*
+
+![Demo Screenshot 2](./Demo%20Screenshot%202.png)  
 
 ## Installation
 To run the project locally, follow these steps:
@@ -100,6 +99,3 @@ The model is deployed on Hugging Face Spaces and can be accessed using the provi
 
 ## Author
 Santhosh Prabhu  
-Project developed as part of deep learning research on deepfake audio detection.
-
-Let me know if you need any modifications! Also, make sure to replace `demo_screenshot_1.png` and `demo_screenshot_2.png` with the actual screenshots in your repository. 🚀
