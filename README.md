@@ -73,7 +73,7 @@ To run the project locally, follow these steps:
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/yourusername/deepfake-audio-detection.git
+git clone https://github.com/SanthoshPrabhu1019/deepfake-audio-detection.git
 cd deepfake-audio-detection
 ```
 
