@@ -52,7 +52,7 @@ The model was trained on the *In The Wild* dataset, containing both real and AI-
 
 ## Demo
 Try out the live demo here:  
-[Try out my Deepfake Audio Detector on Hugging Face](https://huggingface.co/spaces/SanthoshPrabhu/Deepfake_audio_detector)
+[Click here to explore the Deepfake Audio Detector](https://huggingface.co/spaces/SanthoshPrabhu/Deepfake_audio_detector)
 
 ### How the Demo Works:
 1. Upload a `.wav` audio file using the provided upload button.
